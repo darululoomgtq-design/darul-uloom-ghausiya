@@ -1,23 +1,21 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Student Panel</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
+<script>
+const users = [
+    { id: "student1", password: "1234" },
+    { id: "student2", password: "abcd" }
+];
 
-<h2>Student Login</h2>
+function login(){
+    let id = document.getElementById("id").value;
+    let pass = document.getElementById("pass").value;
 
-<input type="text" id="student_id" placeholder="Student ID">
-<input type="password" id="password" placeholder="Password">
-<button onclick="login()">Login</button>
+    let found = users.find(user => user.id === id && user.password === pass);
 
-<div id="dashboard" style="display:none;">
-  <h3 id="name"></h3>
-  <p id="attendance"></p>
-</div>
-
-<script type="module" src="app.js"></script>
-
-</body>
-</html>
+    if(found){
+        alert("Login Successful");
+        // आगे dashboard page पर भेज सकते हो
+        // window.location.href = "dashboard.html";
+    } else {
+        alert("Invalid ID or Password ❌");
+    }
+}
+</script>
