@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Teacher Panel</title>
+
+<style>
+body{
+    font-family: Arial;
+    margin:0;
+    background:#f4f6f9;
+}
+
+header{
+    background:#2c3e50;
+    color:white;
+    padding:15px;
+    text-align:center;
+}
+
+.container{
+    padding:20px;
+}
+
+.card{
+    background:white;
+    padding:15px;
+    margin-bottom:15px;
+    border-radius:10px;
+    box-shadow:0 2px 6px rgba(0,0,0,0.1);
+}
+
+button{
+    padding:8px 12px;
+    border:none;
+    border-radius:5px;
+    cursor:pointer;
+}
+
+.present{
+    background:green;
+    color:white;
+}
+
+.absent{
+    background:red;
+    color:white;
+}
+
+input, textarea{
+    width:100%;
+    padding:10px;
+    margin-top:8px;
+    margin-bottom:10px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<h2>Teacher Dashboard</h2>
+</header>
+
+<div class="container">
+
+<!-- Students -->
+<div class="card">
+<h3>Students List</h3>
+<div id="students"></div>
+</div>
+
+<!-- Attendance -->
+<div class="card">
+<h3>Mark Attendance</h3>
+<div id="attendance"></div>
+</div>
+
+<!-- Announcement -->
+<div class="card">
+<h3>Create Announcement</h3>
+<textarea id="announcementText" placeholder="Write announcement..."></textarea>
+<button onclick="postAnnouncement()">Post</button>
+</div>
+
+</div>
+
+<script type="module">
+import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
+
+// 🔴 CHANGE THIS
+const supabaseUrl = "YOUR_SUPABASE_URL";
+const supabaseKey = "YOUR_SUPABASE_ANON_KEY";
+
+const supabase = createClient(supabaseUrl, supabaseKey);
+
+// Load Students
+async function loadStudents(){
+    let { data, error } = await supabase.from("students").select("*");
+
+    let html = "";
+    data.forEach(s=>{
+        html += `
+        <p>
+            ${s.name} (${s.class})
+        </p>`;
+    });
+
+    document.getElementById("students").innerHTML = html;
+}
+
+// Attendance UI
+async function loadAttendance(){
+    let { data } = await supabase.from("students").select("*");
+
+    let html = "";
+    data.forEach(s=>{
+        html += `
+        <p>
+            ${s.name}
+            <button class="present" onclick="mark('${s.id}','Present')">P</button>
+            <button class="absent" onclick="mark('${s.id}','Absent')">A</button>
+        </p>`;
+    });
+
+    document.getElementById("attendance").innerHTML = html;
+}
+
+// Mark Attendance
+window.mark = async function(id, status){
+    await supabase.from("attendance").insert([
+        { student_id: id, status: status }
+    ]);
+    alert("Marked " + status);
+}
+
+// Announcement
+window.postAnnouncement = async function(){
+    let text = document.getElementById("announcementText").value;
+
+    if(!text){
+        alert("Write something!");
+        return;
+    }
+
+    await supabase.from("announcements").insert([
+        { message: text }
+    ]);
+
+    alert("Announcement Posted!");
+    document.getElementById("announcementText").value = "";
+}
+
+loadStudents();
+loadAttendance();
+
+</script>
+
+</body>
+</html>
