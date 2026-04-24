@@ -2,101 +2,105 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>School Management</title>
+<title>School Home</title>
 
 <style>
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        font-family: Arial, sans-serif;
-    }
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial;
+}
 
-    body {
-        height: 100vh;
-        background: url("https://images.unsplash.com/photo-1580582932707-520aed937b7b") no-repeat center center/cover;
-    }
+body{
+    height:100vh;
+    background:url("https://images.unsplash.com/photo-1580582932707-520aed937b7b") no-repeat center/cover;
+}
 
-    /* HEADER */
-    header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 15px 40px;
-        background: rgba(0,0,0,0.6);
-        color: white;
-    }
+/* HEADER */
+header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:15px 40px;
+    background:rgba(0,0,0,0.7);
+    color:white;
+}
 
-    .logo-section {
-        display: flex;
-        align-items: center;
-    }
+/* LOGO SECTION */
+.logo-section{
+    display:flex;
+    align-items:center;
+}
 
-    .logo-section img {
-        width: 50px;
-        margin-right: 10px;
-    }
+.logo-section img{
+    width:70px;
+    height:70px;
+    border-radius:50%;
+    background:white;
+    padding:5px;
+    margin-right:12px;
+}
 
-    .school-name {
-        font-size: 22px;
-        font-weight: bold;
-    }
+.school-name{
+    font-size:22px;
+    font-weight:bold;
+}
 
-    /* LOGIN DROPDOWN */
-    .login {
-        position: relative;
-    }
+/* LOGIN */
+.login{
+    position:relative;
+}
 
-    .login button {
-        padding: 10px 20px;
-        background: #00bcd4;
-        border: none;
-        color: white;
-        cursor: pointer;
-        border-radius: 5px;
-    }
+.login button{
+    padding:10px 20px;
+    background:#00bcd4;
+    border:none;
+    color:white;
+    cursor:pointer;
+    border-radius:5px;
+    font-size:15px;
+}
 
-    .dropdown {
-        display: none;
-        position: absolute;
-        right: 0;
-        background: white;
-        color: black;
-        min-width: 150px;
-        border-radius: 5px;
-        overflow: hidden;
-    }
+.dropdown{
+    display:none;
+    position:absolute;
+    right:0;
+    background:white;
+    min-width:160px;
+    border-radius:5px;
+    overflow:hidden;
+}
 
-    .dropdown a {
-        display: block;
-        padding: 10px;
-        text-decoration: none;
-        color: black;
-    }
+.dropdown a{
+    display:block;
+    padding:10px;
+    text-decoration:none;
+    color:black;
+}
 
-    .dropdown a:hover {
-        background: #f0f0f0;
-    }
+.dropdown a:hover{
+    background:#eee;
+}
 
-    .login:hover .dropdown {
-        display: block;
-    }
+.login:hover .dropdown{
+    display:block;
+}
 
-    /* CENTER TEXT */
-    .center {
-        height: calc(100vh - 70px);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        color: white;
-        text-align: center;
-        background: rgba(0,0,0,0.4);
-    }
+/* CENTER TEXT */
+.center{
+    height:85vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    color:white;
+    background:rgba(0,0,0,0.4);
+}
 
-    .center h1 {
-        font-size: 40px;
-    }
-
+.center h1{
+    font-size:42px;
+}
 </style>
 </head>
 
@@ -104,12 +108,17 @@
 
 <header>
     <div class="logo-section">
-        <img src="https://cdn-icons-png.flaticon.com/512/3135/3135755.png" alt="logo">
-        <div class="school-name">Darul Uloom Ghausiya Tajveedul Quraan</div>
+        <!-- ✅ YOUR LOGO HERE -->
+        <img src="logo.png" alt="School Logo">
+
+        <div class="school-name">
+            Darul Uloom Ghausiya Tajveedul Quran
+        </div>
     </div>
 
     <div class="login">
         <button>Login</button>
+
         <div class="dropdown">
             <a href="student.html">Student</a>
             <a href="teacher.html">Teacher</a>
