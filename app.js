@@ -1,6 +1,6 @@
 import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
 
-const supabaseUrl = "https://lfcfkmhstqyldzttfpqk.supabase.co/rest/v1/";
+const supabaseUrl = "https://lfcfkmhstqyldzttfpqk.supabase.co";
 const supabaseKey = "sb_publishable_dJMJ0SpmOXFprT6O9U5w2w_8eCxobTN";
 
 const supabase = createClient(supabaseUrl, supabaseKey);
@@ -16,17 +16,22 @@ window.login = async function () {
     .eq("student_id", id)
     .eq("password", pass);
 
+  if (error) {
+    alert("Error: " + error.message);
+    return;
+  }
+
   if (data.length > 0) {
     document.getElementById("dashboard").style.display = "block";
     document.getElementById("name").innerText = "Name: " + data[0].name;
     document.getElementById("attendance").innerText =
       "Attendance: " + data[0].attendance;
   } else {
-    alert("Invalid Login");
+    alert("Invalid Login ❌");
   }
 };
 
-// 🔹 Add Student (Admin)
+// 🔹 Add Student
 window.addStudent = async function () {
   let name = document.getElementById("name").value;
   let sid = document.getElementById("sid").value;
@@ -42,9 +47,9 @@ window.addStudent = async function () {
     },
   ]);
 
-  if (!error) {
-    document.getElementById("msg").innerText = "Student Added ✅";
+  if (error) {
+    document.getElementById("msg").innerText = error.message;
   } else {
-    document.getElementById("msg").innerText = "Error ❌";
+    document.getElementById("msg").innerText = "Student Added ✅";
   }
 };
