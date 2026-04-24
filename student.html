@@ -1,19 +1,23 @@
-<script>
-const users = [
-    { id: "student1", password: "1234" },
-    { id: "student2", password: "abcd" }
-];
+<script type="module">
+import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
 
-function login(){
+const supabaseUrl = "https://lfcfkmhstqyldzttfpqk.supabase.co/rest/v1/";
+const supabaseKey = "sb_publishable_dJMJ0SpmOXFprT6O9U5w2w_8eCxobTN";
+
+const supabase = createClient(supabaseUrl, supabaseKey);
+
+async function login(){
     let id = document.getElementById("id").value;
-    let pass = document.getElementById("pass").value;
+    let password = document.getElementById("pass").value;
 
-    let found = users.find(user => user.id === id && user.password === pass);
+    const { data, error } = await supabase
+        .from("students")
+        .select("*")
+        .eq("student_id", id)
+        .eq("password", password);
 
-    if(found){
-        alert("Login Successful");
-        // आगे dashboard page पर भेज सकते हो
-        // window.location.href = "dashboard.html";
+    if(data.length > 0){
+        alert("Login Successful ✅");
     } else {
         alert("Invalid ID or Password ❌");
     }
