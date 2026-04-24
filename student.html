@@ -1,12 +1,12 @@
 <script type="module">
 import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
 
-const supabaseUrl = "https://lfcfkmhstqyldzttfpqk.supabase.co/rest/v1/";
+const supabaseUrl = "https://lfcfkmhstqyldzttfpqk.supabase.co";
 const supabaseKey = "sb_publishable_dJMJ0SpmOXFprT6O9U5w2w_8eCxobTN";
 
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-async function login(){
+window.login = async function(){
     let id = document.getElementById("id").value;
     let password = document.getElementById("pass").value;
 
@@ -15,6 +15,11 @@ async function login(){
         .select("*")
         .eq("student_id", id)
         .eq("password", password);
+
+    if(error){
+        alert("Error: " + error.message);
+        return;
+    }
 
     if(data.length > 0){
         alert("Login Successful ✅");
