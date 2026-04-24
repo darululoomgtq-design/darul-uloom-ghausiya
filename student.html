@@ -1,49 +1,76 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Student Login</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Student Dashboard</title>
 </head>
 <body>
 
-<h2>Student Login</h2>
+<h1>Student Dashboard</h1>
 
-<input type="text" id="id" placeholder="Student ID"><br><br>
-<input type="password" id="pass" placeholder="Password"><br><br>
+<h3>Attendance</h3>
+<div id="attendance">Loading...</div>
 
-<button id="loginBtn">Login</button>
+<h3>Announcements</h3>
+<div id="announcements">Loading...</div>
+
+<h3>Tests</h3>
+<div id="tests">Loading...</div>
 
 <script type="module">
 import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
 
+// ✅ Your Supabase credentials (already provided)
 const supabase = createClient(
   "https://lfcfkmhstqyldzttfpqk.supabase.co",
   "sb_publishable_dJMJ0SpmOXFprT6O9U5w2w_8eCxobTN"
 );
 
-document.getElementById("loginBtn").addEventListener("click", async () => {
+async function loadDashboard() {
 
-    let id = document.getElementById("id").value;
-    let password = document.getElementById("pass").value;
+  // 🔴 Get student id from login page
+  const studentId = localStorage.getItem("student_id");
 
-    const { data, error } = await supabase
-        .from("students")
-        .select("*")
-        .eq("student_id", id)
-        .eq("password", password);
+  if (!studentId) {
+    alert("Please login first");
+    window.location.href = "login.html";
+    return;
+  }
 
-    console.log(data, error); // 🔥 debug
+  // 🔵 Attendance
+  const { data: attendance } = await supabase
+    .from("attendance")
+    .select("*")
+    .eq("student_id", studentId);
 
-    if(error){
-        alert("Error: " + error.message);
-        return;
-    }
+  document.getElementById("attendance").innerHTML =
+    attendance && attendance.length
+      ? attendance.map(a => `<p>${a.status}</p>`).join("")
+      : "No attendance data";
 
-    if(data && data.length > 0){
-        alert("Login Successful ✅");
-    } else {
-        alert("Invalid ID or Password ❌");
-    }
-});
+  // 🔵 Announcements
+  const { data: announcements } = await supabase
+    .from("announcements")
+    .select("*");
+
+  document.getElementById("announcements").innerHTML =
+    announcements && announcements.length
+      ? announcements.map(a => `<p>📢 ${a.message}</p>`).join("")
+      : "No announcements";
+
+  // 🔵 Tests
+  const { data: tests } = await supabase
+    .from("tests")
+    .select("*");
+
+  document.getElementById("tests").innerHTML =
+    tests && tests.length
+      ? tests.map(t => `<p>📝 ${t.title} - ${t.date}</p>`).join("")
+      : "No tests available";
+}
+
+loadDashboard();
 </script>
 
 </body>
